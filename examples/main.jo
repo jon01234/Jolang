@@ -1,0 +1,4 @@
+function main(argc->int, argv->Array[string])->int
+{
+	return->int = 69;
+}
