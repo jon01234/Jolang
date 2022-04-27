@@ -33,6 +33,7 @@ Node* Parser_ParseStatements(Parser* parser)
 				node->program[i] = Parser_ParseStatement(parser);
 		default: break;
 		}
+		node->program_size += 1;
 	}
 
 	return node;
@@ -153,8 +154,9 @@ Node* Parser_ParseFunctionBody(Parser* parser, Node* node)
 		node->function_body = realloc(node->function_body, i + 1);
 		node->function_body[i] = Parser_ParseStatement(parser);
 		i += 1;
+		node->function_body_size = i;
 	}
-	Parser_Consume(parser, TOKEN_RBRACE);
+	Parser_Consume(parser, TOKEN_RBRACE); // End of function
 
 	return node;
 }
@@ -168,6 +170,7 @@ Node* Parser_ParseFunctionCall(Parser* parser)
 
 	if (parser->currentToken->type == TOKEN_RPAREN)
 	{
+		Parser_Consume(parser, TOKEN_RPAREN);
 		Parser_Consume(parser, TOKEN_SEMI);
 		return node;
 	}
@@ -309,7 +312,6 @@ void Parser_Consume(Parser* parser, int token)
 			parser->lexer->lineno,
 			typeasstring(token)
 		);
-		exit(EXIT_FAILURE);
 	}
 }
 

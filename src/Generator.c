@@ -29,9 +29,7 @@ char* gen_function_decl(Node* function)
 	
 	sprintf(asm_code, template, function->function_name, function->function_name);
 
-	size_t func_size = sizeof(function->function_body) / sizeof(function->function_body[0]);
-	
-	for (int i = 0; i < func_size; i++)
+	for (int i = 0; i < function->function_body_size; i++)
 	{
 		Node* currentNode = function->function_body[i];
 		char* statement = gen_statement(currentNode);
@@ -55,7 +53,7 @@ char* gen_variable_decl(Node* variable)
 		asm_code = realloc(
 			asm_code, strlen(template) + strlen(variable->variable_decl_name) + strlen("\nret") + 1
 		);
-		sprintf(asm_code, "%s%s\nret", template, variable->variable_decl_value);
+		sprintf(asm_code, "%s%s\nret\n\n", template, variable->variable_decl_value);
 
 		return asm_code;
 	}

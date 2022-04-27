@@ -12,7 +12,6 @@ void Jolang_Compile(char* code)
 	Parser* parser = CreateParser(lexer);
 
 	Node* program = Parser_Parse(parser);
-	size_t programSize = sizeof(program->program) / sizeof(program->program[0]);
 
 	char* template = "section .text:\n"
 					 "global _start\n"
@@ -27,10 +26,10 @@ void Jolang_Compile(char* code)
 	ASMProgram = realloc(ASMProgram, strlen(template) + 1);
 	strcat(ASMProgram, template);
 
-	for (int i = 0; i < programSize; i++)
+	for (int i = 0; i < program->program_size; i++)
 	{
 		char* str = gen_statement(program->program[i]);
-		ASMProgram = realloc(ASMProgram,	strlen(ASMProgram) + strlen(str) + 1);
+		ASMProgram = realloc(ASMProgram, strlen(ASMProgram) + strlen(str) + 1);
 		strcat(ASMProgram, str);
 	}
 

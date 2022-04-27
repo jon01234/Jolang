@@ -7,9 +7,11 @@ Node* CreateNode(int type)
 	node->type = type;
 
 	node->program = NULL;
+	node->program_size = 0;
 
 	node->function_name = NULL;
 	node->function_body = NULL;
+	node->function_body_size = 0;
 	node->function_args = NULL;
 	node->function_args_size = 0;
 	node->function_return_type = NULL;

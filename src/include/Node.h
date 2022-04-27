@@ -20,10 +20,12 @@ typedef struct Node
 	
 	// Program
 	struct Node** program;
+	size_t program_size;
 
 	// Function decl
 	char* function_name;
 	struct Node** function_body;
+	size_t function_body_size;
 	struct Node** function_args;
 	size_t function_args_size;
 	char* function_return_type;
