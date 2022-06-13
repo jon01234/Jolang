@@ -6,7 +6,7 @@ int main(int argc, char* argv[])
 {
 	if (argc != 2)
 	{
-		printf("\033[1;13mUsage:\033[0m Jolang <file>\n");
+		Error("Usage Jolang <file>");
 		return 1;
 	}
 	Jolang_CompileFile(argv[1]);

@@ -35,6 +35,23 @@ char* gen_function_decl(Node* function)
 		char* statement = gen_statement(currentNode);
 		asm_code = realloc(asm_code, strlen(asm_code) + strlen(statement) + 1);
 		strcat(asm_code, statement);
+
+		if (i == function->function_body_size - 1 && currentNode->type == NODE_VARIABLE_DECL && strcmp(currentNode->variable_decl_name, "return") == 0)
+		{
+			char* template = "mov eax, ";
+
+			char* code = calloc(
+				1, strlen(template) + strlen(currentNode->variable_decl_name) + strlen("\nret") + 1
+			);
+			sprintf(code, "%s%s\nret\n\n", template, currentNode->variable_decl_value);
+
+			asm_code = realloc(asm_code, strlen(asm_code) + strlen(code) + 1);
+			strcat(asm_code, code);
+		}
+		else
+		{
+			Error("All functions must contain a return value at the end");
+		}
 	}	
 	return asm_code;
 }
@@ -47,16 +64,6 @@ char* gen_function_call(Node* function)
 char* gen_variable_decl(Node* variable)
 {
 	char* asm_code = calloc(1, sizeof(char));
-	if (strcmp(variable->variable_decl_name, "return") == 0)
-	{		char* template = "mov eax, ";
-
-		asm_code = realloc(
-			asm_code, strlen(template) + strlen(variable->variable_decl_name) + strlen("\nret") + 1
-		);
-		sprintf(asm_code, "%s%s\nret\n\n", template, variable->variable_decl_value);
-
-		return asm_code;
-	}
 }
 
 char* gen_variable(Node* variable)
